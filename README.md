@@ -11,8 +11,8 @@ clawtools/
 │   ├── install.sh        # 安装脚本
 │   ├── README.md         # 使用说明
 │   └── USAGE.md          # 详细文档
-├── browser-extension/    # Chrome 浏览器扩展
-│   ├── background.js     # 背景脚本
+├── 24hour-chrome-relay/  # 24小时 Chrome 中继扩展 ⭐
+│   ├── background.js     # 背景脚本（WebSocket 断线自动重连）
 │   ├── manifest.json     # 扩展清单
 │   ├── options.html      # 选项页面
 │   ├── options.js        # 选项脚本
@@ -56,27 +56,37 @@ openclaw-tunnel status
 openclaw-tunnel install-autostart
 ```
 
-### 2. Browser Extension (`browser-extension/`)
+### 2. 24hour Chrome Relay (`24hour-chrome-relay/`) ⭐
 
-OpenClaw 浏览器中继扩展，允许 OpenClaw Gateway 通过 Chrome DevTools Protocol 控制浏览器标签页。
+**7×24 小时无人值守浏览器自动化扩展**
 
-**特性:**
-- 点击扩展图标附加/分离当前标签页
-- 支持配置 Relay 端口和 Gateway Token
-- 自动重连功能（页面刷新、扩展重启后自动恢复）
-- 状态徽章显示连接状态
+这是 OpenClaw Browser Relay 的魔改版本，专为长时间稳定运行设计。核心特性是 **WebSocket 断线自动重连机制**，能够实现真正的 7×24 小时代替人工操作，无需人工干预。
+
+**核心优势:**
+- 🔄 **WebSocket 断线自动重连** - 网络波动、Gateway 重启后自动恢复连接
+- 🔄 **页面刷新自动重连** - 页面刷新、URL 变更后自动重新附加
+- 🔄 **扩展重启自动恢复** - Chrome 扩展重启后自动恢复之前的标签页状态
+- ⏰ **7×24 小时稳定运行** - 无需人工值守，完全自动化
+- 🔌 **一键附加** - 点击扩展图标附加/分离当前标签页
+- 🔐 **Token 认证** - 安全的 Gateway Token 认证
+
+**适用场景:**
+- 长时间数据采集任务
+- 自动化监控和巡检
+- 无人值守的浏览器自动化流程
+- 需要持续运行的 RPA 任务
 
 **安装:**
 1. 打开 Chrome → `chrome://extensions`
 2. 启用"开发者模式"
 3. 点击"加载已解压的扩展程序"
-4. 选择 `browser-extension` 目录
+4. 选择 `24hour-chrome-relay` 目录
 
 **配置:**
 1. 点击扩展图标 → 选项
 2. 设置 Relay 端口（默认 18792）
 3. 输入 Gateway Token
-4. 可选：启用自动重连
+4. **启用自动重连（关键！）**
 
 ## 配置说明
 
@@ -105,7 +115,7 @@ OpenClaw 浏览器中继扩展，允许 OpenClaw Gateway 通过 Chrome DevTools 
 ## 系统要求
 
 - macOS（Node Tunnel 需要）
-- Chrome 浏览器（Browser Extension 需要）
+- Chrome 浏览器（24hour Chrome Relay 需要）
 - OpenClaw CLI 已安装
 - SSH 访问 Gateway 服务器的权限
 
