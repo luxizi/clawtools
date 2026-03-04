@@ -18,6 +18,14 @@ clawtools/
 │   ├── options.js        # 选项脚本
 │   ├── icons/            # 图标资源
 │   └── README.md         # 扩展说明
+├── distributed-memory/   # 分布式异步记忆系统 🧠
+│   ├── index.ts          # 插件入口
+│   ├── src/              # 核心源码
+│   ├── install.sh        # 安装脚本
+│   ├── README.md         # 项目说明
+│   ├── ARCHITECTURE.md   # 架构文档
+│   ├── USAGE.md          # 使用指南
+│   └── config.example.json # 配置示例
 └── README.md             # 本文件
 ```
 
@@ -55,6 +63,55 @@ openclaw-tunnel status
 # 安装开机自启
 openclaw-tunnel install-autostart
 ```
+
+### 3. Distributed Memory System (`distributed-memory/`) 🧠
+
+**分布式异步记忆分类系统**
+
+专为 OpenClaw 设计的智能记忆管理插件，采用"边缘采集 + 远程推理"架构，支持异步非阻塞处理。
+
+**核心特性:**
+- 🚀 **异步非阻塞** - `agent_end` 钩子采用 fire-and-forget 模式，零延迟影响用户体验
+- 🧩 **分布式推理** - 将 LLM 分类任务从边缘设备卸载到专用推理节点
+- 🧹 **智能过滤** - 噪音过滤 + 语义向量去重，防止无效数据入库
+- 💾 **向量存储** - 基于 LanceDB 的高效向量检索
+
+**架构:**
+```
+Edge Node (OpenClaw + Plugin)  <--HTTP-->  Inference Node (Ollama)
+       │                                           │
+       ▼                                           ▼
+LanceDB (Local Store)                      qwen3.5:2b (LLM)
+```
+
+**快速开始:**
+```bash
+cd distributed-memory
+
+# 1. 安装依赖
+./install.sh
+
+# 2. 复制配置示例
+cp config.example.json ~/.openclaw/config.d/memory-lancedb-pro.json
+
+# 3. 编辑配置（设置 Ollama 地址）
+vi ~/.openclaw/config.d/memory-lancedb-pro.json
+
+# 4. 重启 Gateway
+rm -rf ~/.openclaw/.jiti
+openclaw gateway restart
+```
+
+**详细文档:**
+- `README.md` - 项目概览和快速开始
+- `ARCHITECTURE.md` - 系统架构详解和性能指标
+- `USAGE.md` - 完整使用指南和故障排查
+
+**系统要求:**
+- Node.js 18+
+- OpenClaw Gateway
+- Ollama (本地或远程)
+- LanceDB (自动安装)
 
 ### 2. 24hour Chrome Relay (`24hour-chrome-relay/`) ⭐
 
